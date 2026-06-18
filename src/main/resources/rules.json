@@ -1,0 +1,337 @@
+{
+  "ruleSets": [
+    {
+      "businessRuleType": "all_conditions_comprehensive",
+      "conditionType": "ALL",
+      "conditions": [
+        {
+          "path": "$.field1",
+          "operator": "equals",
+          "value": "A"
+        },
+        {
+          "path": "$.field2",
+          "operator": "notEquals",
+          "value": "B"
+        },
+        {
+          "path": "$.field3",
+          "operator": "exists"
+        },
+        {
+          "path": "$.field4",
+          "operator": "notExists"
+        },
+        {
+          "path": "$.numericField",
+          "operator": "greaterThan",
+          "value": 100
+        },
+        {
+          "path": "$.numericField2",
+          "operator": "lessThan",
+          "value": 50
+        },
+        {
+          "path": "$.numericField3",
+          "operator": "greaterThanOrEqual",
+          "value": 10
+        },
+        {
+          "path": "$.numericField4",
+          "operator": "lessThanOrEqual",
+          "value": 200
+        },
+        {
+          "path": "$.listField",
+          "operator": "contains",
+          "value": "item1"
+        },
+        {
+          "path": "$.listField2",
+          "operator": "notContains",
+          "value": "item2"
+        }
+      ],
+      "transformations": [
+        {
+          "path": "$.output1",
+          "operator": "SET",
+          "value": "testValue"
+        },
+        {
+          "path": "$.output2",
+          "operator": "COPY",
+          "value": "$.field1"
+        }
+      ]
+    },
+    {
+      "businessRuleType": "any_conditions_comprehensive",
+      "conditionType": "ANY",
+      "conditions": [
+        {
+          "path": "$.status",
+          "operator": "equals",
+          "value": "active"
+        },
+        {
+          "path": "$.priority",
+          "operator": "greaterThan",
+          "value": 5
+        },
+        {
+          "path": "$.category",
+          "operator": "contains",
+          "value": "important"
+        }
+      ],
+      "transformations": [
+        {
+          "path": "$.processed",
+          "operator": "SET",
+          "value": true
+        },
+        {
+          "path": "$.timestamp",
+          "operator": "COPY",
+          "value": "$.createdAt"
+        },
+        {
+          "path": "$.combined",
+          "operator": "JOIN_PATHS",
+          "value": "$.field1$.field2$.field3"
+        }
+      ]
+    },
+    {
+      "businessRuleType": "none_conditions_all_transformations",
+      "conditionType": "NONE",
+      "conditions": [],
+      "transformations": [
+        {
+          "path": "$.setValue",
+          "operator": "SET",
+          "value": "defaultValue"
+        },
+        {
+          "path": "$.copyValue",
+          "operator": "COPY",
+          "value": "$.sourceField"
+        },
+        {
+          "path": "$.removeField",
+          "operator": "REMOVE"
+        },
+        {
+          "path": "$.joinedValue",
+          "operator": "JOIN_PATHS",
+          "value": "$.part1$.part2$.part3"
+        },
+        {
+          "path": "$.addedValue",
+          "operator": "ADD",
+          "value": 25
+        },
+        {
+          "path": "$.subtractedValue",
+          "operator": "SUBTRACT",
+          "value": 15
+        },
+        {
+          "path": "$.multipliedValue",
+          "operator": "MULTIPLY",
+          "value": 3.5
+        },
+        {
+          "path": "$.dividedValue",
+          "operator": "DIVIDE",
+          "value": 2.5
+        },
+        {
+          "path": "$.hashedValue",
+          "operator": "HASH",
+          "value": "$.password"
+        }
+      ]
+    },
+    {
+      "businessRuleType": "single_condition_single_transformation",
+      "conditionType": "ALL",
+      "conditions": [
+        {
+          "path": "$.simpleField",
+          "operator": "equals",
+          "value": "test"
+        }
+      ],
+      "transformations": [
+        {
+          "path": "$.result",
+          "operator": "SET",
+          "value": "success"
+        }
+      ]
+    },
+    {
+      "businessRuleType": "many_conditions_many_transformations",
+      "conditionType": "ALL",
+      "conditions": [
+        {
+          "path": "$.field1",
+          "operator": "equals",
+          "value": "X"
+        },
+        {
+          "path": "$.field2",
+          "operator": "notEquals",
+          "value": "Y"
+        },
+        {
+          "path": "$.field3",
+          "operator": "exists"
+        },
+        {
+          "path": "$.field4",
+          "operator": "notExists"
+        },
+        {
+          "path": "$.field5",
+          "operator": "greaterThan",
+          "value": 50
+        },
+        {
+          "path": "$.field6",
+          "operator": "lessThanOrEqual",
+          "value": 100
+        },
+        {
+          "path": "$.field7",
+          "operator": "contains",
+          "value": "keyword"
+        }
+      ],
+      "transformations": [
+        {
+          "path": "$.out1",
+          "operator": "SET",
+          "value": "result1"
+        },
+        {
+          "path": "$.out2",
+          "operator": "COPY",
+          "value": "$.field1"
+        },
+        {
+          "path": "$.out3",
+          "operator": "JOIN_PATHS",
+          "value": "$.field1$.field2"
+        },
+        {
+          "path": "$.out4",
+          "operator": "ADD",
+          "value": 100
+        },
+        {
+          "path": "$.out5",
+          "operator": "SUBTRACT",
+          "value": 50
+        },
+        {
+          "path": "$.out6",
+          "operator": "MULTIPLY",
+          "value": 2
+        },
+        {
+          "path": "$.out7",
+          "operator": "DIVIDE",
+          "value": 4
+        },
+        {
+          "path": "$.out8",
+          "operator": "HASH",
+          "value": "$.field7"
+        },
+        {
+          "path": "$.out9",
+          "operator": "REMOVE"
+        }
+      ]
+    },
+    {
+      "businessRuleType": "edge_case_numeric_operations",
+      "conditionType": "NONE",
+      "conditions": [],
+      "transformations": [
+        {
+          "path": "$.zeroAdd",
+          "operator": "ADD",
+          "value": 0
+        },
+        {
+          "path": "$.negativeSubtract",
+          "operator": "SUBTRACT",
+          "value": -10
+        },
+        {
+          "path": "$.fractionalMultiply",
+          "operator": "MULTIPLY",
+          "value": 0.5
+        },
+        {
+          "path": "$.oneMultiply",
+          "operator": "MULTIPLY",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "businessRuleType": "complex_any_scenario",
+      "conditionType": "ANY",
+      "conditions": [
+        {
+          "path": "$.type",
+          "operator": "equals",
+          "value": "premium"
+        },
+        {
+          "path": "$.type",
+          "operator": "equals",
+          "value": "vip"
+        },
+        {
+          "path": "$.score",
+          "operator": "greaterThanOrEqual",
+          "value": 90
+        },
+        {
+          "path": "$.tags",
+          "operator": "contains",
+          "value": "featured"
+        },
+        {
+          "path": "$.verified",
+          "operator": "equals",
+          "value": true
+        }
+      ],
+      "transformations": [
+        {
+          "path": "$.eligibleForBonus",
+          "operator": "SET",
+          "value": true
+        },
+        {
+          "path": "$.bonusAmount",
+          "operator": "MULTIPLY",
+          "value": 1.5
+        },
+        {
+          "path": "$.originalScore",
+          "operator": "COPY",
+          "value": "$.score"
+        }
+      ]
+    }
+  ]
+}
