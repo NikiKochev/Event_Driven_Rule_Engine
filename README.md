@@ -370,37 +370,8 @@ The project includes **18 test classes** covering:
 - Exception handling
 - Persistence layer
 
-### Integration Testing
-
-Send test messages to Kafka:
-
-```bash
-# Using kafka-console-producer
-docker exec -it event-rule-engine-kafka kafka-console-producer \
-  --broker-list localhost:9092 \
-  --topic engine.events.input
-
-# Paste your JSON message and press Enter
-```
 
 ## 📊 API Documentation
-
-### Health Check Endpoint
-
-```bash
-curl http://localhost:8081/actuator/health
-```
-
-Response:
-```json
-{
-  "status": "UP",
-  "components": {
-    "db": { "status": "UP" },
-    "kafka": { "status": "UP" }
-  }
-}
-```
 
 ### Database Schema
 
