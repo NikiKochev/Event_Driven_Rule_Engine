@@ -1,5 +1,6 @@
 package com.nikolay.kochev.eventdrivenruleengine.engine.transformation.operations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nikolay.kochev.eventdrivenruleengine.engine.enums.TransformOperation;
@@ -22,12 +23,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation(null, TransformOperation.HASH, "$.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Target path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -41,12 +43,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("", TransformOperation.HASH, "$.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Target path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -60,12 +63,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, null);
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Source path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -79,24 +83,27 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Source path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
     }
 
     @Test
-    void testException_NullResult() {
+    void testException_NullResult() throws Exception {
+        JsonNode sourceNode = objectMapper.readTree("{}");
+
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), null));
+                () -> hashOperation.execute(transformation, sourceNode, null));
 
         assertTrue(exception.getMessage().contains("Result node cannot be null"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -110,12 +117,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Source field not found at path '$.password'"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -129,12 +137,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("HASH operation failed"));
     }
@@ -147,12 +156,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Source field at path '$.password' is empty"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -168,12 +178,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.user.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Source field not found at path '$.user.password'"));
         assertTrue(exception.getMessage().contains("HASH operation failed"));
@@ -187,12 +198,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.user.password");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Source field not found") ||
                 exception.getMessage().contains("is not an object"));
@@ -231,12 +243,12 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
-
+        JsonNode sourceNode = objectMapper.readTree("{}");
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashed", TransformOperation.HASH, "$.password");
 
         // Should not throw any exception
-        assertDoesNotThrow(() -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+        assertDoesNotThrow(() -> hashOperation.execute(transformation, sourceNode, result));
 
         // Verify the operation was successful
         assertTrue(result.has("hashed"));
@@ -251,12 +263,13 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashedId", TransformOperation.HASH, "$.id");
 
         // Should not throw any exception for numbers
-        assertDoesNotThrow(() -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+        assertDoesNotThrow(() -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(result.has("hashedId"));
         assertEquals(64, result.get("hashedId").asText().length());
@@ -270,12 +283,12 @@ class HashOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
-
+        JsonNode sourceNode = objectMapper.readTree("{}");
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("$.hashedFlag", TransformOperation.HASH, "$.flag");
 
         // Should not throw any exception for booleans
-        assertDoesNotThrow(() -> hashOperation.execute(transformation, objectMapper.readTree("{}"), result));
+        assertDoesNotThrow(() -> hashOperation.execute(transformation, sourceNode, result));
 
         assertTrue(result.has("hashedFlag"));
         assertEquals(64, result.get("hashedFlag").asText().length());

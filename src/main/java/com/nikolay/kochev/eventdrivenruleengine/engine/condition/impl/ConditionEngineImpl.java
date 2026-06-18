@@ -1,14 +1,11 @@
 package com.nikolay.kochev.eventdrivenruleengine.engine.condition.impl;
 
 import com.nikolay.kochev.eventdrivenruleengine.engine.condition.ConditionEngine;
-import com.nikolay.kochev.eventdrivenruleengine.engine.enums.BusinessConditionType;
 import com.nikolay.kochev.eventdrivenruleengine.engine.loader.RulesLoader;
 import com.nikolay.kochev.eventdrivenruleengine.service.model.EventDrivenMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.nikolay.kochev.eventdrivenruleengine.engine.constant.Constants.RULE_TYPE;
 

@@ -1,7 +1,6 @@
 package com.nikolay.kochev.eventdrivenruleengine.messaging.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nikolay.kochev.eventdrivenruleengine.exception.GlobalExceptionHandler;
 import com.nikolay.kochev.eventdrivenruleengine.exception.ProcessingException;
 import com.nikolay.kochev.eventdrivenruleengine.messaging.model.IncomingKafkaMessage;
 import com.nikolay.kochev.eventdrivenruleengine.service.MessageProcessingService;
@@ -20,7 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class KafkaMessageConsumer {
 
-    private final GlobalExceptionHandler exceptionHandler;
     private final ObjectMapper objectMapper;
     private final MessageProcessingService messageProcessingService;
 
@@ -31,16 +29,14 @@ public class KafkaMessageConsumer {
         try {
             incomingKafkaMessage = objectMapper.readValue(message, IncomingKafkaMessage.class);
         } catch (ProcessingException e) {
-            exceptionHandler.handleProcessingException(e, message);
             log.error("Failed to process message {}", message);
             // Acknowledge to prevent infinite retries on unrecoverable errors
             acknowledgment.acknowledge();
             return;
         } catch (Exception e) {
-            exceptionHandler.handleUnexpectedException(e, "KafkaMessageConsumer.listen");
+            log.error("Unrecoverable error processing message {}, message skipped", message);
             // Acknowledge to prevent infinite retries on unrecoverable errors
             acknowledgment.acknowledge();
-            log.error("Unrecoverable error processing message {}, message skipped", message);
             return;
         }
 

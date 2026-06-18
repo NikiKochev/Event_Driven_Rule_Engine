@@ -1,5 +1,6 @@
 package com.nikolay.kochev.eventdrivenruleengine.engine.transformation.operations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nikolay.kochev.eventdrivenruleengine.engine.enums.TransformOperation;
@@ -23,12 +24,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation(null, TransformOperation.DIVIDE, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -42,12 +44,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("", TransformOperation.DIVIDE, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -61,12 +64,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, null);
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Value to divide cannot be null or empty"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -80,24 +84,26 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Value to divide cannot be null or empty"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
     }
 
     @Test
-    void testException_NullResult() {
+    void testException_NullResult() throws Exception {
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "2");
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), null));
+                () -> divideOperation.execute(transformation, sourceNode, null));
 
         assertTrue(exception.getMessage().contains("Result node cannot be null"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -111,12 +117,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Field not found at path 'price'"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -130,12 +137,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("name", TransformOperation.DIVIDE, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("is not a number"));
         assertTrue(exception.getMessage().contains("name"));
@@ -150,12 +158,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "not-a-number");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Cannot parse value to divide"));
         assertTrue(exception.getMessage().contains("not-a-number"));
@@ -170,12 +179,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "0");
 
         ArithmeticException exception = assertThrows(ArithmeticException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Division by zero is not allowed"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -189,12 +199,12 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
-
+        JsonNode sourceNode = objectMapper.readTree("{}");
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "-0.0");
 
         ArithmeticException exception = assertThrows(ArithmeticException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Division by zero is not allowed"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -210,12 +220,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("user.balance", TransformOperation.DIVIDE, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Field not found at path 'user.balance'"));
         assertTrue(exception.getMessage().contains("DIVIDE operation failed"));
@@ -229,12 +240,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("user.balance", TransformOperation.DIVIDE, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> divideOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Field not found") ||
                 exception.getMessage().contains("is not an object"));
@@ -249,12 +261,13 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.DIVIDE, "2");
 
         // Should not throw any exception
-        assertDoesNotThrow(() -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+        assertDoesNotThrow(() -> divideOperation.execute(transformation, sourceNode, result));
 
         // Verify the operation was successful
         assertEquals(50.0, result.get("price").asDouble(), 0.001);
@@ -268,12 +281,12 @@ class DivideOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("value", TransformOperation.DIVIDE, "0.1");
 
-        // Should not throw any exception even for very small divisors
-        assertDoesNotThrow(() -> divideOperation.execute(transformation, objectMapper.readTree("{}"), result));
+        assertDoesNotThrow(() -> divideOperation.execute(transformation, sourceNode, result));
 
         assertEquals(100.0, result.get("value").asDouble(), 0.001);
     }

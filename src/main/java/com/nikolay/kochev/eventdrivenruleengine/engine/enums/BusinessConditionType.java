@@ -4,7 +4,7 @@ public enum BusinessConditionType {
     ALL,
     ANY,
     NONE,
-    DEFAULT;
+    DEFAULT
 
 
 }

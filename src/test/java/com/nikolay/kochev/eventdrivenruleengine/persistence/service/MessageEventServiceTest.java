@@ -1,10 +1,10 @@
 package com.nikolay.kochev.eventdrivenruleengine.persistence.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nikolay.kochev.eventdrivenruleengine.service.model.EventDrivenMessage;
 import com.nikolay.kochev.eventdrivenruleengine.persistence.entity.MessageEvent;
 import com.nikolay.kochev.eventdrivenruleengine.persistence.enums.MessageEventStatus;
 import com.nikolay.kochev.eventdrivenruleengine.persistence.repository.MessageEventRepository;
+import com.nikolay.kochev.eventdrivenruleengine.service.model.EventDrivenMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -75,7 +75,7 @@ class MessageEventServiceTest {
             when(repository.save(any(MessageEvent.class))).thenReturn(messageEvent);
 
             // Act
-            MessageEvent result = messageEventService.createInitialRecord(eventDrivenMessage, "ORDER_PROCESSING");
+            messageEventService.createInitialRecord(eventDrivenMessage, "ORDER_PROCESSING");
 
             // Assert
             ArgumentCaptor<MessageEvent> captor = ArgumentCaptor.forClass(MessageEvent.class);
@@ -97,8 +97,9 @@ class MessageEventServiceTest {
             MessageEvent result = messageEventService.createInitialRecord(eventDrivenMessage, "ORDER_PROCESSING");
 
             // Assert
-            assertThat(result).isNotNull();
-            assertThat(result).isEqualTo(messageEvent);
+            assertThat(result)
+                    .isNotNull()
+                    .isEqualTo(messageEvent);
         }
 
         @Test
@@ -141,7 +142,7 @@ class MessageEventServiceTest {
             when(repository.save(any(MessageEvent.class))).thenReturn(messageEvent);
 
             // Act
-            MessageEvent result = messageEventService.createRejectRecord(eventDrivenMessage);
+            messageEventService.createRejectRecord(eventDrivenMessage);
 
             // Assert
             ArgumentCaptor<MessageEvent> captor = ArgumentCaptor.forClass(MessageEvent.class);
@@ -178,8 +179,9 @@ class MessageEventServiceTest {
             MessageEvent result = messageEventService.createRejectRecord(eventDrivenMessage);
 
             // Assert
-            assertThat(result).isNotNull();
-            assertThat(result).isEqualTo(messageEvent);
+            assertThat(result)
+                    .isNotNull()
+                    .isEqualTo(messageEvent);
         }
     }
 
@@ -470,7 +472,7 @@ class MessageEventServiceTest {
             when(repository.findById(testEntityId)).thenReturn(Optional.of(messageEvent));
 
             // Act
-            MessageEvent created = messageEventService.createInitialRecord(eventDrivenMessage, "ORDER_PROCESSING");
+            messageEventService.createInitialRecord(eventDrivenMessage, "ORDER_PROCESSING");
             messageEventService.updateToCompleted(testEntityId);
 
             // Assert

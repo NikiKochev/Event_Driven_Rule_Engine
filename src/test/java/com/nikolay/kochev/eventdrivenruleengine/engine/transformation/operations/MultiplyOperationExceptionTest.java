@@ -1,5 +1,6 @@
 package com.nikolay.kochev.eventdrivenruleengine.engine.transformation.operations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nikolay.kochev.eventdrivenruleengine.engine.enums.TransformOperation;
@@ -22,12 +23,12 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
-
+        JsonNode sourceNode = objectMapper.readTree("{}");
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation(null, TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
@@ -41,12 +42,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Path cannot be null or empty"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
@@ -60,12 +62,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, null);
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Value to multiply cannot be null or empty"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
@@ -79,24 +82,26 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, "");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Value to multiply cannot be null or empty"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
     }
 
     @Test
-    void testException_NullResult() {
+    void testException_NullResult() throws Exception{
+        JsonNode sourceNode = objectMapper.readTree("{}");
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), null));
+                () -> multiplyOperation.execute(transformation, sourceNode, null));
 
         assertTrue(exception.getMessage().contains("Result node cannot be null"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
@@ -110,12 +115,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Field not found at path 'price'"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
@@ -129,12 +135,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("is not a number"));
         assertTrue(exception.getMessage().contains("price"));
@@ -149,12 +156,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("name", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("is not a number"));
         assertTrue(exception.getMessage().contains("name"));
@@ -169,12 +177,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("active", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("is not a number"));
         assertTrue(exception.getMessage().contains("active"));
@@ -191,12 +200,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("user", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("is not a number"));
         assertTrue(exception.getMessage().contains("user"));
@@ -211,12 +221,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, "not-a-number");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Cannot parse value to multiply"));
         assertTrue(exception.getMessage().contains("not-a-number"));
@@ -233,12 +244,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("user.balance", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Field not found at path 'user.balance'"));
         assertTrue(exception.getMessage().contains("MULTIPLY operation failed"));
@@ -252,12 +264,13 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("user.balance", TransformOperation.MULTIPLY, "2");
 
         TransformationException exception = assertThrows(TransformationException.class,
-                () -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+                () -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertTrue(exception.getMessage().contains("Field not found") ||
                 exception.getMessage().contains("is not an object"));
@@ -272,11 +285,12 @@ class MultiplyOperationExceptionTest {
                 }
                 """;
         ObjectNode result = (ObjectNode) objectMapper.readTree(json);
+        JsonNode sourceNode = objectMapper.readTree("{}");
 
         TransformationLoader.Transformation transformation =
                 new TransformationLoader.Transformation("price", TransformOperation.MULTIPLY, "2");
 
-        assertDoesNotThrow(() -> multiplyOperation.execute(transformation, objectMapper.readTree("{}"), result));
+        assertDoesNotThrow(() -> multiplyOperation.execute(transformation, sourceNode, result));
 
         assertEquals(200.0, result.get("price").asDouble(), 0.001);
     }

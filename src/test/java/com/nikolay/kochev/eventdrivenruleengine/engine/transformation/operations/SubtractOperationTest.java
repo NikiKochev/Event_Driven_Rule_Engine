@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for SUBTRACT operation
- */
 class SubtractOperationTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
