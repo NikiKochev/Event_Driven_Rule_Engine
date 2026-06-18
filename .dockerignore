@@ -1,0 +1,45 @@
+# Build artifacts
+target/
+!target/*.jar
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Version control
+.git/
+.gitignore
+.info/.gitattributes
+
+# Documentation (not needed in container)
+*.md
+!README.md
+
+# Test files
+src/test/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+
